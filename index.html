@@ -11,17 +11,70 @@
         <div class="todo-app">
             <h1>To-Do List</h1>
             <div class="inputs">
-                <input type="text" placeholder="Enter your task">
-                <button>Add Task</button>
+                <input type="text" placeholder="Enter your task" id="input-box">
+                <button onclick="addTask()">Add Task</button>
             </div>
-            <div>
-                <ul id="list-items">
-                    <li><button class="tick">✔️</button>Task1 <button class="cross">X</button></li>
-                    <li>Task 2</li>
-                    <li>Task 3</li>
-                </ul>
-            </div>
+            <ul id="list-items">
+                <!-- <li>
+                    <button class="done-btn">Done</button>
+                    <span>Task 1</span>
+                    <button class="delete-btn">Delete</button>
+                </li> -->
+            </ul>
         </div>
     </div>
+
+    <script>
+        const inputbox = document.getElementById("input-box");
+        const listitems = document.getElementById("list-items");
+
+        function addTask() {
+            const taskText = inputbox.value.trim();
+            if (taskText === "") {
+                alert("You must write something!");
+                return;
+            }
+            const li = document.createElement("li");
+
+            const doneBtn = document.createElement("button");
+            doneBtn.textContent = "Done";
+            doneBtn.className = "done-btn";
+
+            const span = document.createElement("span");
+            span.textContent = taskText;
+
+            const deleteBtn = document.createElement("button");
+            deleteBtn.textContent = "Delete";
+            deleteBtn.className = "delete-btn";
+
+            li.appendChild(doneBtn);
+            li.appendChild(span);
+            li.appendChild(deleteBtn);
+
+            listitems.appendChild(li);
+
+            inputbox.value = "";
+
+            doneBtn.addEventListener("click", () => {
+                li.classList.toggle("completed");
+            });
+
+            deleteBtn.addEventListener("click", () => {
+                li.remove();
+            });
+        }
+
+        document.querySelectorAll(".done-btn").forEach(btn => {
+            btn.addEventListener("click", () => {
+                btn.closest("li").classList.toggle("completed");
+            });
+        });
+
+        document.querySelectorAll(".delete-btn").forEach(btn => {
+            btn.addEventListener("click", () => {
+                btn.closest("li").remove();
+            });
+        });
+    </script>
 </body>
 </html>
